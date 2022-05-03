@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+    <div class="card mb-4">
+        <div class="card-body">
+            <form class="form" method="post" action="{% url 'export_work_orders' %}">
+                {% csrf_token %}
+                {{ form | crispy }}
+                    <br>
+                    <br>
+                  <button class="btn btn-success mt-3" >Generate Report</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+{% if request.user.is_staff %}
+    <div class="card my-4">
+        <form class="form" method="post">
+            <div class="card-header">
+                <h4>Are you sure you want to delete the following work order item?</h4>
+            </div>
+            <div class="card-body">
+                    {% csrf_token %}
+                    {{ form | crispy }}
+                    <table>
+                        <tbody>
+                            <tr>
+                                <th>ID: </th>
+                                <td class="px-5">{{ object.id }}</td>
+                            </tr>
+                            <tr>
+                                <th>Item Name: </th>
+                                <td class="px-5">{{ object.item_name }}</td>
+                            </tr>
+                            <tr>
+                                <th>Item Quantity: </th>
+                                <td class="px-5">{{ object.item_quantity }}</td>
+                            </tr>
+                            <tr>
+                                <th>Item Cost: </th>
+                                <td class="px-5">{{ object.item_cost }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+            </div>
+            <div class="card-footer">
+                <a class="btn btn-dark" href="{% url 'order_detail' object.work_order.id %}">Go Back</a>
+                <button class="btn btn-danger ml-2" type="submit">Confirm</button>
+            </div>
+        </form>
+    </div>
+{% endif %}
+{% endblock %}

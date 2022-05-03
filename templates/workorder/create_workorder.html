@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <div class="card mb-4">
+        <div class="card-body">
+            <form class="form" method="post">
+                {% csrf_token %}
+                {{ form | crispy }}
+                <br>
+                <br>
+                <button type="submit" class="btn btn-success mt-3" id="id_createsave">Save</button>
+
+                <br>
+            </form>
+        </div>
+    </div>
+{% endblock %}

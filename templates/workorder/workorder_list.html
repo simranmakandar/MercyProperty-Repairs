@@ -1,0 +1,126 @@
+{% extends 'base.html' %}
+
+{% block title %}Work Order List{% endblock title %}
+
+
+{% block content %}
+    <div style="max-width:100%; min-width: 850px" class="card mb-4">
+        <div class="card-header">
+            <i class="fas fa-table me-1"></i>
+
+            {% if user.is_staff %}
+                <ul class="nav navbar-nav text" style="float:right">
+                    <li style="padding: 5px"><a class="btn btn-info" href="{% url 'create_workorder' %}">Create Order</a></li> &nbsp&nbsp
+                    <li style="padding: 5px"><a class="btn btn-info" style="float:right" href="{% url 'export_PDFfilter_work' %}">Export to PDF</a></li>&nbsp&nbsp
+                    <li style="padding: 5px"><a class="btn btn-info" style="float:right" href="{% url 'export_filter_work' %}">Export to
+                        Excel</a></li>
+                </ul>
+            {% endif %}
+        </div>
+        <div class="card-body">
+            <table id="datatablesSimple" class="table">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Property</th>
+                    <th>Apartment</th>
+                    <th>Work Order Name</th>
+                    <th>Skill Set Required</th>
+                    <th>Severity</th>
+                    <th>Status</th>
+                    <th>Assigned Employee</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for order in orders %}
+                    <tr>
+                        <td>{{ order.id }}</td>
+                        <td>{{ order.property.property_name }}</td>
+                        <td>{{ order.apartment.apartment_name }}</td>
+                        <td>{{ order.workorder_name }}</td>
+                        <td>{{ order.skill_set }}</td>
+                        <td>{{ order.severity }}</td>
+                        <td>{{ order.status }}</td>
+                        <td>{{ order.user.username }}</td>
+                        <td>
+                            <a class="btn btn-info" href={% url 'order_detail' order.pk %}>View Order</a>
+                        </td>
+                        <td>
+                            <a class="btn btn-warning" href="{% url 'order_update' order.pk %}">Update Order</a>
+                        </td>
+                        {% if request.user.is_staff %}
+                            <td>
+                                <a class="btn btn-danger" href={% url 'order_delete' order.pk %}>Delete Order</a>
+                            </td>
+                        {% endif %}
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+
+        </div>
+            {% if is_paginated %}
+  <ul class="pagination">
+    {% if page_obj.has_previous %}
+      <li><a href="?page={{ page_obj.previous_page_number }}">&laquo;</a></li>
+    {% else %}
+      <li class="disabled"><span>&laquo;</span></li>
+    {% endif %}
+    {% for i in paginator.page_range %}
+      {% if page_obj.number == i %}
+        <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+      {% else %}
+        <li><a href="?page={{ i }}">{{ i }}</a></li>
+      {% endif %}
+    {% endfor %}
+    {% if page_obj.has_next %}
+      <li><a href="?page={{ page_obj.next_page_number }}">&raquo;</a></li>
+    {% else %}
+      <li class="disabled"><span>&raquo;</span></li>
+    {% endif %}
+  </ul>
+{% endif %}
+    </div>
+{% endblock content %}
+
+{#This part is for pagination#}
+{#{% if is_paginated %}#}
+{#  <ul class="pagination">#}
+{#    {% if page_obj.has_previous %}#}
+{#      <li><a href="?page={{ page_obj.previous_page_number }}">&laquo;</a></li>#}
+{#    {% else %}#}
+{#      <li class="disabled"><span>&laquo;</span></li>#}
+{#    {% endif %}#}
+{#    {% for i in paginator.page_range %}#}
+{#      {% if page_obj.number == i %}#}
+{#        <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>#}
+{#      {% else %}#}
+{#        <li><a href="?page={{ i }}">{{ i }}</a></li>#}
+{#      {% endif %}#}
+{#    {% endfor %}#}
+{#    {% if page_obj.has_next %}#}
+{#      <li><a href="?page={{ page_obj.next_page_number }}">&raquo;</a></li>#}
+{#    {% else %}#}
+{#      <li class="disabled"><span>&raquo;</span></li>#}
+{#    {% endif %}#}
+{#  </ul>#}
+{#{% endif %}#}
+
+{#<div class="pagination">#}
+{#    <span class="step-links">#}
+{#        {% if page_obj.has_previous %}#}
+{#            <a href="?page=1">&laquo; first</a>#}
+{#            <a href="?page={{ page_obj.previous_page_number }}">previous</a>#}
+{#        {% endif %}#}
+{##}
+{#        <span class="current">#}
+{#            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.#}
+{#        </span>#}
+{##}
+{#        {% if page_obj.has_next %}#}
+{#            <a href="?page={{ page_obj.next_page_number }}">next</a>#}
+{#            <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>#}
+{#        {% endif %}#}
+{#    </span>#}
+{#</div>#}

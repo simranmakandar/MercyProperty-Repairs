@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <div class="card my-4">
+        <form class="form" method="post">
+            <div class="card-header">
+                <h4>Are you sure you want to delete the following work order?</h4>
+            </div>
+            <div class="card-body">
+                    {% csrf_token %}
+                    {{ form | crispy }}
+                    <table>
+                        <tbody>
+                            <tr>
+                                <th>ID: </th>
+                                <td class="px-5">{{ object.id }}</td>
+                            </tr>
+                            <tr>
+                                <th>Title: </th>
+                                <td class="px-5">{{ object.workorder_name }}</td>
+                            </tr>
+                            <tr>
+                                <th>Apartment Number: </th>
+                                <td class="px-5">{{ object.apartment }}</td>
+                            </tr>
+                            <tr>
+                                <th>Description: </th>
+                                <td class="px-5">{{ object.short_desc }}</td>
+                            </tr>
+                            <tr>
+                                <th>Skill Set Required: </th>
+                                <td class="px-5">{{ object.skill_set }}</td>
+                            </tr>
+                            <tr>
+                                <th>Severity Level: </th>
+                                <td class="px-5">{{ object.severity }}</td>
+                            </tr>
+                            <tr>
+                                <th>Current Status: </th>
+                                <td class="px-5">{{ object.status }}</td>
+                            </tr>
+                            <tr>
+                                <th>Desired Completion Date: </th>
+                                <td class="px-5">{{ object.completed_date }}</td>
+                            </tr>
+                            <tr>
+                                <th>Estimated Cost: </th>
+                                <td class="px-5">{{ object.estimated_cost }}</td>
+                            </tr>
+                            <tr>
+                                <th>Assigned Employee: </th>
+                                <td class="px-5">{{ object.user.username }}</td>
+                            </tr>
+                            <tr>
+                                <th>Actual Completion Date: </th>
+                                <td class="px-5">{{ object.promised_date }}</td>
+                            </tr>
+                            <tr>
+                                <th>Actual Cost: </th>
+                                <td class="px-5">{{ object.actual_cost }}</td>
+                            </tr>
+                            <tr>
+                                <th>Created Date: </th>
+                                <td class="px-5">{{ object.work_order_date }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+            </div>
+            <div class="card-footer">
+                <a class="btn btn-success" href="{% url 'workorder_list' %}">Go Back</a>
+                <button class="btn btn-danger ml-2" type="submit">Confirm</button>
+            </div>
+        </form>
+    </div>
+{% endblock %}

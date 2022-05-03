@@ -1,0 +1,103 @@
+{% extends 'base.html' %}
+
+{% block title %}Home{% endblock title %}
+
+
+{% block content %}
+<div class="card mb-4">
+    <div class="card-header">
+        <span>ID: {{ object.id }}</span>
+        <span class="float-end">Severity: {{ object.severity }}</span>
+        <br/>
+        <span>Title: {{ object.workorder_name }}</span>
+        <span class="float-end">Current Status: {{ object.status }}</span>
+    </div>
+    <div class="card-body">
+        <table>
+            <tbody>
+                <tr>
+                    <th>Apartment Number: </th>
+                    <td class="px-5">{{ object.apartment }}</td>
+                </tr>
+                <tr>
+                    <th>Description: </th>
+                    <td class="px-5">{{ object.short_desc }}</td>
+                </tr>
+                <tr>
+                    <th>Skill Set Required: </th>
+                    <td class="px-5">{{ object.skill_set }}</td>
+                </tr>
+                <tr>
+                    <th>Desired Completion Date: </th>
+                    <td class="px-5">{{ object.promised_date }}</td>
+                </tr>
+                <tr>
+                    <th>Estimated Cost: </th>
+                    <td class="px-5">{{ object.estimated_cost }}</td>
+                </tr>
+                <tr>
+                    <th>Assigned Employee: </th>
+                    <td class="px-5">{{ object.user.username }}</td>
+                </tr>
+                <tr>
+                    <th>Actual Completion Date: </th>
+                    <td class="px-5">{{ object.completed_date }}</td>
+                </tr>
+                <tr>
+                    <th>Actual Cost: </th>
+                    <td class="px-5">{{ object.actual_cost }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="card-footer">
+        <span class="font-weight-bold float-end">Date Submitted: <br>{{ object.work_order_date }}</span>
+        <a class="btn btn-warning" href="{% url 'order_update' object.id %}">Update Work Order</a>
+    </div>
+</div>
+<div class="card mb-4">
+    <div class="card-header">
+        <i class="fas fa-table me-1"></i>
+        <p></p>Work Order Items
+        <a class="btn btn-success" href="{% url 'item_create' object.pk %}">Add Items</a>
+    </div>
+    <div class="card-body">
+        <table id="datatablesSimple" class="table">
+            <thead>
+            <tr>
+                <th>Item Name</th>
+                <th>Item Quantity</th>
+                <th>Item Cost</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for item in items %}
+                <tr>
+                    <td>{{ item.item_name }}</td>
+                    <td>{{ item.item_quantity }}</td>
+                    <td>{{ item.item_cost }}</td>
+                    <td>
+                        <a class="btn btn-warning" href="{% url 'item_update' item.pk %}">Update Item</a>
+                    </td>
+                    {% if request.user.is_staff %}
+                    <td>
+                        <a class="btn btn-danger" href="{% url 'item_delete' item.pk %}">Delete Item</a>
+                    </td>
+                    {% endif %}
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+<a class="btn btn-success" href="{% url 'workorder_list' %}">Go Back</a>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+
+{% endblock content %}

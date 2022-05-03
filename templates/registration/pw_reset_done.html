@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% block title %}Forgot your password?{% endblock title %}
+
+{% block content %} 
+    <h2>Password Reset Email has been sent.</h2>
+    <p>Instructions have been sent to the email provided. The emails should appear in your inbox shortly</p>
+    <a href="{% url 'home' %}" class="btn btn-success ml-2">Back To Home</a>
+{% endblock content %}

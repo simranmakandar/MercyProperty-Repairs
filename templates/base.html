@@ -1,0 +1,133 @@
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
+    <link rel="stylesheet" href="{% static 'css/workorder.css' %}">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+
+</head>
+<body>
+<header>
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse"
+                        data-target="#myNavbar">
+                    <span class="sr-only">Toggle Navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <!-- logo -->
+                <a class="navbar-brand" href="{% url 'home' %}">
+                    Mercy Affordable Housing
+                </a>
+            </div>
+
+            <div class="collapse navbar-collapse" id="myNavbar">
+                {% if user.is_authenticated %}
+                    <ul class="nav navbar-nav">
+                        <li><a href="{% url 'home' %}">Home</a></li>
+                        <li><a href="#aboutpage">Contact</a></li>
+                        <li><a href = "{% url 'dashboard' %}">Overview</a></li>
+
+                        {% if user.is_superuser %}
+                            <li><a href="{% url 'workorder_list' %}">WorkOrder</a></li>
+                        {% elif user.is_staff %}
+                            <li><a href="{% url 'workorder_list1' %}">WorkOrder</a></li>
+                        {% else %}
+                            <li><a href="{% url 'workorder_list2' %}">WorkOrder</a></li>
+                        {% endif %}
+                    </ul>
+                {% endif %}
+
+                <ul class="nav navbar-nav navbar-right">
+                    {% if user.is_authenticated %}
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                               aria-expanded="false">
+                                Welcome,{{ user.username }}<span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu" role="menu">
+                                {% if user.is_superuser %}
+                                    <li><a class="dropdown-item" href="{% url 'admin:index' %}">Admin panel</a></li>
+                                {% endif %}
+                                <li><a class="dropdown-item" href="{% url 'change_password' %}">Change Password</a></li>
+                                <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
+                            </ul>
+                        </li>
+                    {% else %}
+                        <a href="{% url 'login' %}" class="btn btn-success">Log In</a>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+    {% block content %}
+    {% endblock %}
+    <a id="aboutpage">
+    <footer class="mah-center mah-black mah-padding-16">
+      <div class="container">
+        <div class="row-flex">
+            <div class="opening-time">
+                <h3>
+                    Opening timings
+                </h3>
+                <p>
+                    <span>Monday—Thursday: 08:00 — 22:00</span>
+                    <span>Friday—Saturday: 09:00 — 23:00 </span>
+                    <span>Sunday: 10:00 — 17:00</span>
+                </p>
+            </div>
+            <div class="contact-address">
+                <h3>
+                    Contact
+                </h3>
+                <p>
+                    <span>010-002-0008</span>
+                    <span>12 Pine Street</span>
+                    <span>Omaha 68106, NE</span>
+                </p>
+
+            </div>
+        </div>
+        </div>
+    </footer>
+    </a>
+{#    {% block pagination %}#}
+{#        {% if is_paginated %}#}
+{#            <div class="pagination">#}
+{#            <span class="page-links">#}
+{#                {% if page_obj.has_previous %}#}
+{#                    <a href="{{ request.path }}?page={{ page_obj.previous_page_number }}">previous</a>#}
+{#                {% endif %}#}
+{#                <span class="page-current">#}
+{#                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.#}
+{#                </span>#}
+{#                {% if page_obj.has_next %}#}
+{#                    <a href="{{ request.path }}?page={{ page_obj.next_page_number }}">next</a>#}
+{#                {% endif %}#}
+{#            </span>#}
+{#            </div>#}
+{#        {% endif %}#}
+{#    {% endblock pagination %}#}
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+            crossorigin="anonymous"></script>
+</header>
+</body>
+</html>

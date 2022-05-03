@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <div class="card mb-4">
+        <div class="card-body">
+            <form class="form" method="post">
+                {% csrf_token %}
+                {{ form | crispy }}
+                <a class="btn btn-dark mt-3" href="{% url 'workorder_list' %}">Go Back</a>
+                <button type="submit" class="btn btn-success mt-3">Save</button>
+                <br>
+            </form>
+        </div>
+    </div>
+{% endblock %}
